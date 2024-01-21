@@ -137,10 +137,10 @@ def find_eagar_move(board, player):
 
 
 
-class hikaruAI(OthelloAI):
-  def __init__(self):
-    self.face = '🐶' # 自分の好きな絵文字
-    self.name = 'もも' # 自分の好きな名前
+class OthelloAI(object):
+    def __init__(self, face, name):
+        self.face = face
+        self.name = name
 
     def __repr__(self):
         return f"{self.face}{self.name}"
