@@ -159,35 +159,10 @@ class hikaruAI(OthelloAI):
         self.face = '🐱'
         self.name = '果歩'
 
-    def evaluate_board(self, board, piece):
-        # ここで評価関数をカスタマイズできます
-        # 例えば、プレイヤーと対戦相手の駒の数を数えるなど
-        player_count = count_board(board, piece)
-        opponent_count = count_board(board, -piece)
-        return player_count - opponent_count
-
-    def move(self, board: np.array, piece: int) -> tuple[int, int]:
+    def move(self, board: np.array, piece: int)->tuple[int, int]:
         valid_moves = get_valid_moves(board, piece)
-
-        # 評価スコアが最も高い手を選択
-        best_move = valid_moves[0]
-        best_score = float('-inf')
-
-        for move in valid_moves:
-            new_board = board.copy()
-            r, c = move
-            stones_to_flip = flip_stones(new_board, r, c, piece)
-            new_board[r, c] = piece
-            for flip_r, flip_c in stones_to_flip:
-                new_board[flip_r, flip_c] = piece
-
-            score = self.evaluate_board(new_board, piece)
-
-            if score > best_score:
-                best_score = score
-                best_move = move
-
-        return best_move
+        return valid_moves[0]
+        
 class OchibiAI(OthelloAI):
     def __init__(self, face, name):
         self.face = '🐕'
