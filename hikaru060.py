@@ -136,7 +136,6 @@ def find_eagar_move(board, player):
     return best_result
 
 
-
 class OthelloAI(object):
     def __init__(self, face, name):
         self.face = face
@@ -155,15 +154,14 @@ class OthelloAI(object):
         else:
             return 'がーん'
 
-class OchibiAI(OthelloAI):
-    def __init__(self, face, name):
-        self.face = face
-        self.name = name
+class hikaruAI(OthelloAI):
+    def __init__(self):
+        self.face = '🐱'
+        self.name = '果歩'
 
     def move(self, board: np.array, piece: int)->tuple[int, int]:
         valid_moves = get_valid_moves(board, piece)
         return valid_moves[0]
-
 import traceback
 
 def board_play(player: OthelloAI, board, piece: int):
