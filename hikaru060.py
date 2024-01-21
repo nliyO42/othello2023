@@ -163,6 +163,8 @@ class hikaruAI(OthelloAI):
         self.name = name
 
     def evaluate_board(self, board, piece):
+        # 初期段階ではランダムな手を選ぶ
+        return random.random()
         # 評価関数をカスタマイズ
         # 例: 置かれる場所の周りに相手の駒が多いほど評価が高くなる
         score = 0
@@ -237,11 +239,27 @@ def game(player1: OthelloAI, player2: OthelloAI,N=6):
             break
     comment(player1, player2, board)
 
+def is_game_over(board):
+    return len(get_valid_moves(board, BLACK)) == 0 and len(get_valid_moves(board, WHITE)) == 0
 
+def game(player1: OthelloAI, player2: OthelloAI, N=8):
+    board = init_board(N)
+    display_board(board, black=f'{player1}', white=f'{player2}')
 
+    while count_board(board, EMPTY) > 0 and not is_game_over(board):
+        if not board_play(player1, board, BLACK):
+            break
+        if not board_play(player2, board, WHITE):
+            break
 
+    comment(player1, player2, board)
 
-
+    if count_board(board, BLACK) > count_board(board, WHITE):
+        print(f"{player1}の勝利！")
+    elif count_board(board, WHITE) > count_board(board, BLACK):
+        print(f"{player2}の勝利！")
+    else:
+        print("引き分け！")
 
 
 
