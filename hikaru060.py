@@ -188,6 +188,14 @@ class hikaruAI(OthelloAI):
                 best_move = move
 
         return best_move
+class OchibiAI(OthelloAI):
+    def __init__(self, face, name):
+        self.face = face
+        self.name = name
+
+    def move(self, board: np.array, piece: int)->tuple[int, int]:
+        valid_moves = get_valid_moves(board, piece)
+        return valid_moves[0]
 
 import traceback
 
