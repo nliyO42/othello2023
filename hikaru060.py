@@ -311,29 +311,15 @@ class OthelloAI(object):
         else:
             return 'がーん'
 
-import random
+
 
 class hikaruAI(OthelloAI):
-    def __init__(self, face, name):
+   def __init__(self):
         self.face = '🐱'
         self.name = '果歩'
-
-    def move(self, board, color: int)->tuple[int, int]:
-        """
-        ボードが与えられたとき、どこに置くか(row,col)を返す
-        """
-        valid_moves = get_valid_moves(board, color)
-        # ランダムに選ぶ
-        selected_move = random.choice(valid_moves)
-        return selected_move
-
-#class hikaruAI(OthelloAI):
-#   def __init__(self):
-#        self.face = '🐱'
-#        self.name = '果歩'
-#   def move(self, board: np.array, piece: int)->tuple[int, int]:
-#      valid_moves = get_valid_moves(board, piece)
-#      return valid_moves[0]
+   def move(self, board: np.array, piece: int)->tuple[int, int]:
+      valid_moves = get_valid_moves(board, piece)
+      return valid_moves[0]
 
 import traceback
 
