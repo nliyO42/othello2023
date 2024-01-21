@@ -158,17 +158,45 @@ class OthelloAI(object):
 
 
 class hikaruAI(OthelloAI):
-  def __init__(self, face, name):
-    self.face = face
-    self.name = name
-#   def __init__(self):
-#        self.face = '🐱'
-#        self.name = '果歩'
-  def move(self, board, color: int)->tuple[int, int]:
-    valid_moves = get_valid_moves(board, color)
-        # ランダムに選ぶ
-    selected_move = random.choice(valid_moves)
-    return selected_move
+    def __init__(self, face, name):
+        self.face = face
+        self.name = name
+
+    def evaluate_board(self, board, piece):
+        # 初期段階ではランダムな手を選ぶ
+        return random.random()
+        # 評価関数をカスタマイズ
+        # 例: 置かれる場所の周りに相手の駒が多いほど評価が高くなる
+        score = 0
+        for r, c in get_valid_moves(board, piece):
+            distance_to_edge = min(r, c, len(board) - 1 - r, len(board[0]) - 1 - c)
+            score += distance_to_edge
+
+        return score
+
+    def move(self, board, color: int) -> tuple[int, int]:
+        valid_moves = get_valid_moves(board, color)
+
+        # 評価スコアが最も高い手を選択
+        best_move = valid_moves[0]
+        best_score = float('-inf')
+
+        for move in valid_moves:
+            new_board = board.copy()
+            r, c = move
+            stones_to_flip = flip_stones(new_board, r, c, color)
+            new_board[r, c] = color
+            for flip_r, flip_c in stones_to_flip:
+                new_board[flip_r, flip_c] = color
+
+            score = self.evaluate_board(new_board, color)
+
+            if score > best_score:
+                best_score = score
+                best_move = move
+
+        return best_move
+
 
 import traceback
 
@@ -210,8 +238,6 @@ def game(player1: OthelloAI, player2: OthelloAI,N=6):
         if not board_play(player2, board, WHITE):
             break
     comment(player1, player2, board)
-
-
 
 
 
