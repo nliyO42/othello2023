@@ -174,28 +174,28 @@ class hikaruAI(OthelloAI):
 
         return score
 
+class hikaruAI(OthelloAI):
     def move(self, board, color: int) -> tuple[int, int]:
         valid_moves = get_valid_moves(board, color)
 
-        # 評価スコアが最も高い手を選択
-        best_move = valid_moves[0]
-        best_score = float('-inf')
+        # 四隅に置ける場合は優先的に置く
+        corner_moves = prioritize_corners(board, valid_moves)
+        if corner_moves:
+            selected_move = random.choice(corner_moves)
+        else:
+            # 四隅に置けない場合は通常のランダムな置き方となる
+            selected_move = random.choice(valid_moves)
 
-        for move in valid_moves:
-            new_board = board.copy()
-            r, c = move
-            stones_to_flip = flip_stones(new_board, r, c, color)
-            new_board[r, c] = color
-            for flip_r, flip_c in stones_to_flip:
-                new_board[flip_r, flip_c] = color
+        return selected_move
 
-            score = self.evaluate_board(new_board, color)
 
-            if score > best_score:
-                best_score = score
-                best_move = move
+# 新しい関数を追加
+def prioritize_corners(board, valid_moves):
+    corners = [(0, 0), (0, len(board) - 1), (len(board) - 1, 0), (len(board) - 1, len(board) - 1)]
+    corner_moves = [move for move in valid_moves if move in corners]
+    return corner_moves if corner_moves else valid_moves
 
-        return best_move
+
 
 
 import traceback
@@ -260,13 +260,3 @@ def game(player1: OthelloAI, player2: OthelloAI, N=8):
         print(f"{player2}の勝利！")
     else:
         print("引き分け！")
-
-
-
-
-
-
-
-
-
-
