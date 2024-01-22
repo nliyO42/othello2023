@@ -174,7 +174,6 @@ class hikaruAI(OthelloAI):
 
         return score
 
-class hikaruAI(OthelloAI):
     def move(self, board, color: int) -> tuple[int, int]:
         valid_moves = get_valid_moves(board, color)
 
