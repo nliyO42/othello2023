@@ -188,6 +188,27 @@ class hikaruAI(OthelloAI):
 
         return selected_move
 
+        # 評価スコアが最も高い手を選択
+        best_move = valid_moves[0]
+        best_score = float('-inf')
+
+        for move in valid_moves:
+            new_board = board.copy()
+            r, c = move
+            stones_to_flip = flip_stones(new_board, r, c, color)
+            new_board[r, c] = color
+            for flip_r, flip_c in stones_to_flip:
+                new_board[flip_r, flip_c] = color
+
+            score = self.evaluate_board(new_board, color)
+
+            if score > best_score:
+                best_score = score
+                best_move = move
+
+        return best_move
+
+
 
 # 新しい関数を追加
 def prioritize_corners(board, valid_moves):
